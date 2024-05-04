@@ -8,13 +8,11 @@ namespace GameComponentLab
 {
 	public static class GameUtils
 	{
-		public static int origRow;
-		public static int origCol;
 		public static void WriteAt(string s, int x, int y)
 		{
 			try
 			{
-				Console.SetCursorPosition(origCol + x, origRow + y);
+				Console.SetCursorPosition(x, y);
 				Console.Write(s);
 			}
 			catch (ArgumentOutOfRangeException e)

@@ -75,6 +75,7 @@ namespace GameComponentLab
 		/// <summary>
 		/// Render an animated bar and a static bar indicating the hit location for a successful blow.
 		/// </summary>
+		// TODO: refactor to return bool indicating hit success
 		public void HitTest()
 		{
 			Console.CursorVisible = false;
@@ -86,25 +87,47 @@ namespace GameComponentLab
 			{
 				while (!Console.KeyAvailable)
 				{
+					Console.SetCursorPosition(PosX + 1, PosY + 1);
 					for (int i = 0; i < Length - 3; i++)
 					{
-						if (i > 0) Console.Write(" ");
-						Console.SetCursorPosition(PosX + i + 1, PosY + 1);
-						Console.Write("|");
+						Console.Write(" ");
+						GameUtils.WriteAt("|", PosX + i + 1, PosY + 1);
 						Console.SetCursorPosition(PosX + i + 1, PosY + 1);
 						Thread.Sleep(frameTime);
+						if (Console.KeyAvailable) break; //Console.In.ToString().Contains('e') | NOTE: alter how an 'E' press is checked
 					}
+					if (Console.KeyAvailable) break; 
 					for (int i = Length - 3; i > 0; i--)
 					{
-						if (i < Length - 2) Console.Write(" ");
-						Console.SetCursorPosition(PosX + i + 1, PosY + 1);
-						Console.Write("|");
+						Console.Write(" ");
+						GameUtils.WriteAt("|", PosX + i + 1, PosY + 1);
 						Console.SetCursorPosition(PosX + i + 1, PosY + 1);
 						Thread.Sleep(frameTime);
+						if(i == 1) Console.Write(" "); // fixes visual bug w/ looping animation
+						if (Console.KeyAvailable) break;
 					}
 				}
 			}
-			while (Console.ReadKey(true).Key != ConsoleKey.E);
+			while (Console.ReadKey(true).Key != ConsoleKey.E); 
+			// reset environment variables
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.CursorVisible = true;
+
+			// check if player landed a hit
+			if(Console.CursorLeft == HitLocation + 2)
+			{
+				Console.SetCursorPosition(PosX, PosY + 3);
+				Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("HIT");
+				Console.ForegroundColor = ConsoleColor.White;
+			}
+			else
+			{
+				Console.SetCursorPosition(PosX, PosY + 3);
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("MISS");
+				Console.ForegroundColor = ConsoleColor.White;
+			}
 		}
 	}
 }
