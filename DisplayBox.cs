@@ -38,6 +38,10 @@
 		{
 			return Content;
 		}
+		public int GetCapacity()
+		{
+			return (SizeX - 2) * (SizeY - 2);
+		}
 		// setters
 		private void SetSizeX(int sizeX)
 		{
@@ -83,7 +87,9 @@
 			SetBordered(bordered);
 			SetContent(content);
 		}
-
+		/// <summary>
+		/// Draws the border of this DisplayBox on the screen.
+		/// </summary>
 		public void DrawBorder()
 		{
 			if (Bordered)
@@ -124,10 +130,15 @@
 				}
 			}
 		}
+		/// <summary>
+		/// Draws this DisplayBox's current content to the screen. Content exceeding the bounds of the DisplayBox is truncated
+		/// to fit within the box.
+		/// </summary>
 		public void DrawContent()
 		{
 			if (Content == null) return;
 			int currentY;
+			int charsWritten = 0;
 			bool newLine = false;
 
 			Console.SetCursorPosition(PosX + 1, PosY + 1);
@@ -139,12 +150,65 @@
 					continue;
 				}
 				newLine = false; // reset newLine
+				if (charsWritten >= GetCapacity()) break;
 				Console.Write(c);
+				charsWritten++;
 				if (Console.GetCursorPosition().Left > SizeX - 2)
 				{
 					currentY++;
 					Console.SetCursorPosition(PosX + 1, currentY);
 					newLine = true;
+				}
+			}
+			Console.SetCursorPosition(0, SizeY);
+		}
+		/// <summary>
+		/// Draws this DisplayBox's current content to the screen with a delay between characters. <br/>
+		/// Content exceeding the bounds of the DisplayBox is truncated to fit within the box.
+		/// </summary>
+		public void DrawContentGradual()
+		{
+			if (Content == null) return;
+			int currentY;
+			int charsWritten = 0;
+			bool newLine = false;
+
+			Console.SetCursorPosition(PosX + 1, PosY + 1);
+			currentY = PosY + 1;
+			foreach (char c in Content)
+			{
+				if (newLine && c == ' ')
+				{
+					continue;
+				}
+				newLine = false; // reset newLine
+				if (charsWritten >= GetCapacity()) break;
+				GameUtils.WriteGradual(c);
+				charsWritten++;
+				if (Console.GetCursorPosition().Left > SizeX - 2)
+				{
+					currentY++;
+					Console.SetCursorPosition(PosX + 1, currentY);
+					newLine = true;
+				}
+			}
+			Console.SetCursorPosition(0, SizeY);
+		}
+		/// <summary>
+		/// Resets the displayed content to be empty. DOES NOT affect the value of the Content field.
+		/// </summary>
+		public void ClearContent()
+		{
+			int currentY;
+			bool newLine = false;
+
+			Console.SetCursorPosition(PosX + 1, PosY + 1);
+			for(int i = 0; i < SizeY - 2; i++)
+			{
+				Console.SetCursorPosition(PosX + 1, PosY + 1 + i);
+				for (int j = 0; j < SizeX - 2; j++)
+				{
+					Console.Write(' ');
 				}
 			}
 			Console.SetCursorPosition(0, SizeY);

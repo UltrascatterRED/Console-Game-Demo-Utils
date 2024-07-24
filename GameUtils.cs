@@ -21,6 +21,12 @@ namespace GameComponentLab
 				Console.WriteLine(e.Message);
 			}
 		}
+		/// <summary>
+		/// Writes a string to the screen with delay between each character, creating an RPG-style
+		/// display effect. Speed can be configured.
+		/// </summary>
+		/// <param name="content"></param>
+		/// <param name="speed"></param>
 		public static void WriteGradual(string content, int speed = 25)
 		{
 			foreach(char c in content)
@@ -28,6 +34,16 @@ namespace GameComponentLab
 				Console.Write(c);
 				Thread.Sleep(speed);
 			}
+		}
+		/// <summary>
+		/// Writes a single character to the screen, followed by a delay. Speed can be configured.
+		/// </summary>
+		/// <param name="c"></param>
+		/// <param name="speed"></param>
+		public static void WriteGradual(char c, int speed = 25)
+		{
+			Console.Write(c);
+			Thread.Sleep(speed);
 		}
 	}
 }
