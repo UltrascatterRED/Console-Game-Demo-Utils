@@ -21,5 +21,13 @@ namespace GameComponentLab
 				Console.WriteLine(e.Message);
 			}
 		}
+		public static void WriteGradual(string content, int speed = 25)
+		{
+			foreach(char c in content)
+			{
+				Console.Write(c);
+				Thread.Sleep(speed);
+			}
+		}
 	}
 }

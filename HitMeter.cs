@@ -79,6 +79,7 @@ namespace GameComponentLab
 		public void HitTest()
 		{
 			Console.CursorVisible = false;
+			
 			int frameTime = 1000 / Speed; // time per frame in ms
 			ConsoleKeyInfo playerKeyInfo;
 			Console.ForegroundColor = BarColor;
