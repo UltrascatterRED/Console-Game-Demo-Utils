@@ -218,6 +218,6 @@
 			DrawBorder();
 			DrawContent();
 		}
-		//public override string ToString // may be unnecessary
+		
 	}
 }

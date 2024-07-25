@@ -8,6 +8,10 @@ namespace GameComponentLab
 {
 	public static class GameUtils
 	{
+		// event bools
+		public static bool IsPlayerDead = false;
+		//public static List<Enemy> CurrentEnemies = new List<Enemy>();
+
 		public static void WriteAt(string s, int x, int y)
 		{
 			try
